@@ -1,26 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useSelector } from "react-redux"
+import Search from "./components/Search"
+import { RootState } from "./store/store"
+import Loader from "./components/Loader"
+import { Route, Routes } from "react-router"
+import Home from "./pages/Home"
+import BookPage from "./pages/BookPage"
 
 function App() {
+  const load = useSelector((state: RootState) => state.app.load)
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Search />
+
+      <div className="container">
+        <Routes>
+          <Route index path="/" element={<Home />} />
+          <Route path="/:id" element={<BookPage />} />
+        </Routes>
+      </div>
+
+      {load && <Loader />}
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
